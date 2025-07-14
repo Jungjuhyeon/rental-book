@@ -37,5 +37,9 @@ consumer:
   groupid:
     name: book
 
+producers:
+  topic1:
+    name: rental_result
+
 kafka:
   bootstrapAddress: localhost:9092
