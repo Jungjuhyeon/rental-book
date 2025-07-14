@@ -1,5 +1,8 @@
 package com.rentalbook.domain.model;
 
+import com.rentalbook.domain.model.event.ItemRented;
+import com.rentalbook.domain.model.event.ItemReturned;
+import com.rentalbook.domain.model.event.OverdueCleared;
 import com.rentalbook.domain.model.vo.*;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
@@ -51,6 +54,17 @@ public class RentalCard {
         rentalCard.setRentStatus(RentStatus.RENT_AVAILABLE);
         rentalCard.setLateFee(LateFee.createLateFee());
         return rentalCard;
+    }
+
+    //이벤트 생성
+    public static ItemRented createItemRentedEvent(IdName idName, Item item, long point){
+        return new ItemRented(idName,item,point);
+    }
+    public static ItemReturned createItemReturnEvent(IdName idName, Item item, long point){
+        return new ItemReturned(idName,item,point);
+    }
+    public static OverdueCleared createOverdueCleardEvent(IdName idName, long point) {
+        return new OverdueCleared(idName,point);
     }
 
     //대여처리

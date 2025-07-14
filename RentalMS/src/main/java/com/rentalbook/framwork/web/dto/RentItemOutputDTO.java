@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 public class RentItemOutputDTO {
     private Integer itemNo;
-    private String itemtitle;
+    private String itemTitle;
     private LocalDate rentDate;
     private boolean overdued;
     //반납 예정일
@@ -23,7 +23,7 @@ public class RentItemOutputDTO {
     {
         RentItemOutputDTO rentItemOutputDTO = new RentItemOutputDTO();
         rentItemOutputDTO.setItemNo(rentItem.getItem().getNo());
-        rentItemOutputDTO.setItemtitle(rentItem.getItem().getTitle());
+        rentItemOutputDTO.setItemTitle(rentItem.getItem().getTitle());
         rentItemOutputDTO.setRentDate(rentItem.getRentDate());
         rentItemOutputDTO.setOverdued(rentItem.isOverdued());
         rentItemOutputDTO.setOverdueDate(rentItem.getOverdueDate());

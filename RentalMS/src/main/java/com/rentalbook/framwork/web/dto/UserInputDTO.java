@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class UserInputDTO {
-    public String UserId;
-    public String UserNm;
+    public String userId;
+    public String userNm;
 }

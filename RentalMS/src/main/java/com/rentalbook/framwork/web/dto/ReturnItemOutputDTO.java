@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @Getter
 public class ReturnItemOutputDTO {
     private Integer itemNo;
-    private String itemtitle;
+    private String itemTitle;
     private LocalDate returnDate;
     public static ReturnItemOutputDTO mapToDTO(ReturnItem returnItem)
     {
@@ -22,7 +22,7 @@ public class ReturnItemOutputDTO {
 
         rentItemOutputDTO.setItemNo(returnItem.getRentalItem().getItem().getNo());
 
-        rentItemOutputDTO.setItemtitle(returnItem.getRentalItem().getItem().getTitle())
+        rentItemOutputDTO.setItemTitle(returnItem.getRentalItem().getItem().getTitle())
         ;
         rentItemOutputDTO.setReturnDate(returnItem.getReturnDate());
         return rentItemOutputDTO;

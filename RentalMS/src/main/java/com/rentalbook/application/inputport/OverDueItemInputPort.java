@@ -2,7 +2,7 @@ package com.rentalbook.application.inputport;
 
 
 import com.rentalbook.application.outputport.RentalCardOutputPort;
-import com.rentalbook.application.usecase.OverdueItemUsercase;
+import com.rentalbook.application.usecase.OverdueItemUsecase;
 import com.rentalbook.domain.model.RentalCard;
 import com.rentalbook.domain.model.vo.Item;
 import com.rentalbook.framwork.web.dto.RentalCardOutputDTO;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class OverDueItemInputPort implements OverdueItemUsercase {
+public class OverDueItemInputPort implements OverdueItemUsecase {
 
     private final RentalCardOutputPort rentalCardOutputPort;
 

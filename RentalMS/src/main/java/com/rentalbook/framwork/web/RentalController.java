@@ -19,7 +19,7 @@ public class RentalController {
     private final RentItemUsecase rentItemUsecase;
     private final ReturnItemUsercase returnItemUsercase;
     private final CreateRentalCardUsecase createRentalCardUsecase;
-    private final OverdueItemUsercase overdueItemUsercase;
+    private final OverdueItemUsecase overdueItemUsercase;
     private final ClearOverdueItemUsecase clearOverdueItemUsecase;
     private final InquiryUsecase inquiryUsecase;
 
@@ -29,7 +29,7 @@ public class RentalController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createRentalCard);
     }
 
-    @GetMapping("/RentalCard/{userId} ")
+    @GetMapping("/RentalCard/{userId}")
     public ResponseEntity<RentalCardOutputDTO> getRentalCard(@PathVariable String userId){
         Optional<RentalCardOutputDTO> rentalCard = inquiryUsecase.getRentalCard(new UserInputDTO(userId, ""));
         return ResponseEntity.ok(rentalCard.get());
@@ -62,8 +62,7 @@ public class RentalController {
     @PostMapping("/RentalCard/overdue")
     public ResponseEntity<RentalCardOutputDTO> overdueItem(@RequestBody
                                                            UserItemInputDTO userItemInputDTO) throws Exception {
-        RentalCardOutputDTO rentalCardOutputDTO =
-                overdueItemUsercase.overDueItem(userItemInputDTO);
+        RentalCardOutputDTO rentalCardOutputDTO = overdueItemUsercase.overDueItem(userItemInputDTO);
         return ResponseEntity.ok(rentalCardOutputDTO);
     }
 
