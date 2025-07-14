@@ -16,8 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsePointInputPort implements UsePointUsecase {
     private final MemberOutPutPort memberOutPutPort;
     @Override
-    public MemberOutPutDTO userPoint(IDName idName, long point) throws
-            Exception {
+    public MemberOutPutDTO userPoint(IDName idName, long point) throws Exception {
         Member loadMember = memberOutPutPort.loadMemberByIdName(idName);
         loadMember.usePoint(point);
         return MemberOutPutDTO.mapToDTO(loadMember);
