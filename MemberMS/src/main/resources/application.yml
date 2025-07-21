@@ -29,6 +29,11 @@ logging:
   level:
     org.hibernate.SQL: debug
 
+
+producers:
+  topic1:
+    name: rental_result
+
 consumer:
   topic1:
     name: rental_rent
@@ -36,7 +41,10 @@ consumer:
     name: rental_return
   topic3:
     name: overdue_clear
+  topic4:
+   name: point_use
   groupid:
     name: member
+
 kafka:
   bootstrapAddress: localhost:9092
