@@ -5,6 +5,7 @@ import com.rentalbook.application.outputport.EventOutputPort;
 import com.rentalbook.domain.model.event.ItemRented;
 import com.rentalbook.domain.model.event.ItemReturned;
 import com.rentalbook.domain.model.event.OverdueCleared;
+import com.rentalbook.domain.model.event.PointUseCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class RentalKafkaAdapter implements EventOutputPort {
+public class RentalKafkaProducer implements EventOutputPort {
 
     @Value(value = "${producers.topic1.name}")
     private String TOPIC_RENT;
@@ -25,10 +26,13 @@ public class RentalKafkaAdapter implements EventOutputPort {
     private  String TOPIC_RETURN;
     @Value(value = "${producers.topic3.name}")
     private  String TOPIC_CLEAR;
+    @Value(value = "${producers.topic4.name}")
+    private String TOPIC_POINT;
 
     private final KafkaTemplate<String, ItemRented> kafkaTemplate1;
     private final KafkaTemplate<String, ItemReturned> kafkaTemplate2;
     private final KafkaTemplate<String, OverdueCleared> kafkaTemplate3;
+    private final KafkaTemplate<String, PointUseCommand> kafkaTemplate4;
     @Override
     public void occurRentalEvent(ItemRented itemRented) throws JsonProcessingException {
         CompletableFuture<SendResult<String, ItemRented>> future = kafkaTemplate1.send(TOPIC_RENT, itemRented);
@@ -74,6 +78,20 @@ public class RentalKafkaAdapter implements EventOutputPort {
         }).exceptionally(ex -> {
             log.error("Unable to send message=[{}] due to: {}",
                     overdueCleared.getIdName().getId(), ex.getMessage(), ex);
+            return null;
+        });
+    }
+    @Override
+    public void occurPointUseCommand(PointUseCommand pointUseCommand) throws JsonProcessingException {
+        CompletableFuture<SendResult<String, PointUseCommand>> future = kafkaTemplate4.send(TOPIC_POINT, pointUseCommand);
+
+        future.thenAccept(result -> {
+            PointUseCommand sentCommand = result.getProducerRecord().value();
+            log.info("Sent message=[{}] with offset=[{}]", sentCommand.getIdName().getId(), result.getRecordMetadata().offset());
+        }).exceptionally(ex -> {
+            log.error("Unable to send message=[{}] due to: {}", pointUseCommand.getIdName().getId(), ex.getMessage(), ex);
+
+            // TODO: 보상 트랜잭션 처리
             return null;
         });
     }

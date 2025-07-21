@@ -1,6 +1,5 @@
 package com.book.config;
 
-import com.book.domain.model.event.ItemRented;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

@@ -39,12 +39,9 @@ public class RentalCard {
     private void addRentalItem(RentalItem rentalItem){
         this.rentalItemList.add(rentalItem);
     }
-    private void removeRentalItem(RentalItem rentalItem){
-        this.rentalItemList.remove(rentalItem);
-    }
-    private void addReturnItem(ReturnItem returnItem){
-        this.returnItemList.add(returnItem);
-    }
+    private void removeRentalItem(RentalItem rentalItem){this.rentalItemList.remove(rentalItem);}
+    private void addReturnItem(ReturnItem returnItem){this.returnItemList.add(returnItem);}
+    private void removeReturnItem(ReturnItem returnItem){this.returnItemList.remove(returnItem);}
 
     //대여카드 생성
     public static RentalCard createRentalCard(IdName creator){
@@ -73,6 +70,12 @@ public class RentalCard {
         this.addRentalItem(RentalItem.createRentalItem(item));
         return this;
     }
+    //취소처리
+    public RentalCard cancelRentItem(Item item) throws Exception {
+        RentalItem rentedItem = this.rentalItemList.stream().filter(i -> i.getItem().equals(item)).findFirst().get();
+        this.removeRentalItem(rentedItem);
+        return this;
+    }
 
     private void checkRentalAvailable() {
         if(this.rentStatus == RentStatus.RENT_UNAVAILABLE)throw new IllegalArgumentException("대여불가상태입니다.");
@@ -84,6 +87,16 @@ public class RentalCard {
         calcalateLateFee(rentalItem,returnDate);
         this.addReturnItem(ReturnItem.createReturnItem(rentalItem));
         this.removeRentalItem(rentalItem);
+        return this;
+    }
+
+    //반납취소
+    public RentalCard cancleReturnItem(Item item,long point) throws Exception {
+        //reternItem의 getitem은 rentItem이므로 여기서 getItem을 해야 Item과 비교 가능
+        ReturnItem returnItem = this.returnItemList.stream().filter(i ->
+                i.getRentalItem().getItem().equals(item)).findFirst().get();
+        this.addRentalItem(returnItem.getRentalItem());
+        this.removeReturnItem(returnItem);
         return this;
     }
 
@@ -116,5 +129,11 @@ public class RentalCard {
             this.rentStatus =RentStatus.RENT_AVAILABLE;
         }
         return this.getLateFee().getPoint();
+    }
+
+    public long cancleMakeAvailableRental(long point) throws Exception {
+        this.setLateFee(lateFee.addPoint(point));
+        this.rentStatus = RentStatus.RENT_UNAVAILABLE;
+        return this.lateFee.getPoint();
     }
 }
