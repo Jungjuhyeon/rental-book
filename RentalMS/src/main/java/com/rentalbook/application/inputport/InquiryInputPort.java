@@ -22,13 +22,13 @@ public class InquiryInputPort implements InquiryUsecase {
     private final RentalCardOutputPort rentalCardOutputPort;
     @Override
     public Optional<RentalCardOutputDTO> getRentalCard(UserInputDTO userInputDTO) {
-        return rentalCardOutputPort.loadRentalCard(userInputDTO.UserId)
+        return rentalCardOutputPort.loadRentalCard(userInputDTO.userId)
                 .map(RentalCardOutputDTO::mapToDTO);
     }
 
     @Override
     public Optional<List<RentItemOutputDTO>> getAllRentItem(UserInputDTO userInputDTO) {
-        return rentalCardOutputPort.loadRentalCard(userInputDTO.UserId)
+        return rentalCardOutputPort.loadRentalCard(userInputDTO.userId)
                 .map(loadCard -> loadCard.getRentalItemList()
                         .stream()
                         .map(RentItemOutputDTO::mapToDTO)
@@ -38,7 +38,7 @@ public class InquiryInputPort implements InquiryUsecase {
     @Override
     public Optional<List<ReturnItemOutputDTO>> getAllReturnItem(UserInputDTO
                                                                         userInputDTO) {
-        return rentalCardOutputPort.loadRentalCard(userInputDTO.UserId)
+        return rentalCardOutputPort.loadRentalCard(userInputDTO.userId)
                 .map(loadCard -> loadCard.getReturnItemList()
                         .stream()
                         .map(ReturnItemOutputDTO::mapToDTO)
